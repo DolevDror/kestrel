@@ -11,4 +11,4 @@ def check_key(api_key_header: str = Security(api_key_header)):
     if api_key_header == api_key:
         return "Authorized"
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key") # Raising an error if unauthenticated
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key") # Raising a 401 (unauthorized) error if unauthenticated

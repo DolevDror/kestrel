@@ -32,7 +32,7 @@ async def db_lifespan(app: FastAPI):
 
 # Define the actual fastapi app
 app = FastAPI(
-    title="1678 Kestrel",
+    title="Kestrel",
     description="API for connecting to the 1678 scouting database",
     version="1.0.0",
     lifespan=db_lifespan # Include the database lifespan event

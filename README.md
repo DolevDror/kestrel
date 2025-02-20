@@ -33,6 +33,7 @@ In order to keep important data a secret, it is stored in enviroment variables. 
 
 * `API_KEY` This is the string that you need in order to access the API, because you are running locally you can put whatever you want.
 
+* `TBA_KEY` A key to access The Blue Alliance's API
 
 ### Starting the API server
 
@@ -43,7 +44,7 @@ Once you are at the docs, you will be able to test your various endpoints, but f
 
 ## Developing 
 
-If you are here to contribute code, I would encourage you to take a look at the development sections of the wiki. If you're inexperiencied, there will be guides walking you through how kestrel functions. If you are experienced, I would still suggest looking there. There are suggestions on how to keep kestrel easy to maintain, run, and understand. 
+If you are here to contribute code, I would encourage you to take a look at the development sections of the wiki. If you're inexperiencied, there will be guides walking you through how kestrel functions. If you are experienced, I would still suggest looking there. It includes the standards for kestrel, and suggestions on how to keep it easy to maintain, run, and understand.
 
 
 ### Why the name kestrel?
