@@ -137,7 +137,7 @@ async def get_ss_team(event_key: str, user: str):
 async def get_notes(event_key: str):
     db = Database.get_database(event_key)
     data = await db["notes"].find({}, {"_id": 0}).to_list(length=None)
-    return {note["team_number"]: note for note in data} # Key each note by team number
+    return {note["team_number"]: note["note"] for note in data} # Key each note by team number
 
 @router.get("/notes/{event_key}/{team_num}")
 async def get_notes(event_key: str, team_num: str):
