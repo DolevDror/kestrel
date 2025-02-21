@@ -43,6 +43,10 @@ async def get_obj_team(event_key: str, category: str):
 
     team_data = {}
     for document in data:
+        # Viewer wants us to send datapoints with a list value as a string
+        for datapoint in document.keys():
+            if "mode" in datapoint:
+                document[datapoint] = str(document[datapoint])
         team_data[document["team_number"]] = document # Create a dictionary with the team number as the key and the document as the value
 
     return team_data
@@ -73,6 +77,7 @@ async def get_predicted_aim(event_key: str):
     for aim in data:
         if aim["match_number"] not in predicted_aim: # If the match number is not in the dictionary, add it
             predicted_aim[aim["match_number"]] = {"red": {}, "blue": {}} # initialize it with empty dictionaries for the red and blue
+        aim["team_numbers"] = str(aim["team_numbers"]) # Viewer wants team numbers as a str representation of the list
         if aim["alliance_color_is_red"]: 
             predicted_aim[aim["match_number"]]["red"] = aim # Add the aim to the red alliance
         else:
