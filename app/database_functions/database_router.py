@@ -167,11 +167,14 @@ async def add_new_note(event_key: str, team_num: str, note: Note):
 async def get_scout_precision(event_key: str):
     db = Database.get_database(event_key)
     data = await db["scout_precision"].find({}, {"_id": 0}).to_list(length=None)
-
     
-    scout_precision = {}
+    scout_precision_list = []
     for document in data:
         if "scout_precision" in document:
-            scout_precision[document["scout_name"]] = {"precision": document["scout_precision"], "rank": document["scout_precision_rank"]}
-
-    return scout_precision
+            scout_precision_list.append({
+                "precision": document["scout_precision"],
+                "rank": document["scout_precision_rank"],
+                "name": document["scout_name"]
+            })
+            
+    return sorted(scout_precision_list, key=lambda d: d["rank"])
