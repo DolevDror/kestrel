@@ -13,7 +13,10 @@ async def get_tba_endpoint(tba_endpoint: str):
 @router.get("/match_schedule/{event_key}")
 async def get_match_schedule(event_key: str):
 
-    matches = await tba_request(f"event/{event_key}/matches/simple") # Get the match data
+    tba_key = event_key
+    if "test" in event_key:
+        tba_key = event_key[4:]
+    matches = await tba_request(f"event/{tba_key}/matches/simple") # Get the match data
 
     if not matches:
         raise HTTPException(status_code=404, detail="Event not found")
@@ -36,7 +39,10 @@ async def get_match_schedule(event_key: str):
 
 @router.get("/team_list/{event_key}")
 async def get_team_list(event_key: str):
-    raw_teams = await tba_request(f"event/{event_key}/teams/keys") # Get the list of teams
+    tba_key = event_key
+    if "test" in event_key:
+        tba_key = event_key[4:]
+    raw_teams = await tba_request(f"event/{tba_key}/teams/keys") # Get the list of teams
     if not raw_teams:
         raise HTTPException(status_code=404, detail="Event not found")
     team_list = [team[3:] for team in raw_teams] # Remove the frc from the team key
