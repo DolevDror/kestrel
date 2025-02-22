@@ -19,6 +19,14 @@ async def db_exists(db_name: str):
     return {"exists": ping["ok"]} # Return an exists field with a boolean value
 
 
+@router.get("/db_list")
+async def get_db_list():
+
+    db_list = await Database.get_db_list()
+    excluded_dbs = ["admin", "config", "local", "api", "__realm_sync", "static"]
+    db_list = [db for db in db_list if db not in excluded_dbs] # Exclude the excluded databases
+
+    return db_list
 
 # Endpoint for getting all documents in a collection from a db
 @router.get("/raw/{db_name}/{collection_name}")

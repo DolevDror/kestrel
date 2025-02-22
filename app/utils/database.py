@@ -26,3 +26,9 @@ class Database:
         if not cls.client:
             raise RuntimeError("MongoDB client not initialized")
         return cls.client[db_name] # Get the requested database from the cluster
+
+    @classmethod
+    def get_db_list(cls):
+        if not cls.client:
+            raise RuntimeError("MongoDB client not initialized")
+        return cls.client.list_database_names()
