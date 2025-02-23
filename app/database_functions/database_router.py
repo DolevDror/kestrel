@@ -186,7 +186,7 @@ async def add_new_pit_document(event_key: str, pit_data: list):
     
     successful_inserts = 0 
     for doc in pit_data:
-        result = await db["raw_obj_pit"].insert_one(pit_data)
+        result = await db["raw_obj_pit"].insert_one(doc)
         if result.acknowledged == "ok":
             successful_inserts += 1
 
