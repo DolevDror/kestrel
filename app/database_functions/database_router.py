@@ -154,7 +154,11 @@ async def get_notes(event_key: str):
 async def get_notes(event_key: str, team_num: str):
     db = Database.get_database(event_key)
     data = await db["notes"].find({"team_number": team_num}, {"_id": 0}).to_list(length=None)
-    return {"notes": data[0]["notes"], "team_number": team_num} # Return the note and the team number
+    if len(data) == 0:
+        note = ""
+    else:
+        note = data[0]["notes"]
+    return {"notes": note, "team_number": team_num} # Return the note and the team number
 
 class Note(BaseModel):
     note: str
