@@ -1,3 +1,4 @@
+from email.mime import image
 from fastapi import APIRouter, HTTPException, UploadFile
 from bson import Binary
 from fastapi.responses import Response
@@ -231,3 +232,13 @@ async def get_pit_picture(event_key: str, image_name: str):
 
     # Return the image data as a FileResponse
     return Response(content=binary_data, media_type="image/jpeg")
+
+@router.get("/pit_collection/image_list/{event_key}")
+async def get_pit_image_list(event_key: str):
+    db = Database.get_database(event_key)
+
+    image_list = await db["pit_images"].find({}, {"_id": 0, "image": 0}).to_list(length=None)
+
+    image_names = [image["filename"] for image in image_list]
+
+    return image_names
