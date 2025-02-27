@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 # Define the router object, all endpoints created from this
 router = APIRouter()
+unauthed_router = APIRouter()
 
 VALID_TEAM_CATAGORIES = ["obj_team", "tba_team", "predicted_team", "pickability", "raw_obj_pit", "subj_team", "picklist"] # Define the valid team categories
 VALID_TIM_CATAGORIES = ["obj_tim", "tba_tim", "subj_tim"] # Define the valid tim categories
@@ -222,7 +223,7 @@ async def upload_pit_picture(event_key: str, picture: UploadFile):
     return {"success": result.acknowledged, "filename": picture.filename}
 
 
-@router.get("/pit_collection/images/{event_key}/{image_name}")
+@unauthed_router.get("/pit_collection/images/{event_key}/{image_name}")
 async def get_pit_picture(event_key: str, image_name: str):
     db = Database.get_database(event_key)
 
@@ -251,7 +252,7 @@ async def delete_pit_picture(event_key: str, image_name: str):
 
     return {"success": result.acknowledged}
 
-@router.get("/pit_collection/image_list/{event_key}")
+@unauthed_router.get("/pit_collection/image_list/{event_key}")
 async def get_pit_image_list(event_key: str):
     db = Database.get_database(event_key)
 
