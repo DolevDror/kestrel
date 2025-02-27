@@ -223,7 +223,7 @@ async def upload_pit_picture(event_key: str, picture: UploadFile):
 
 
 @router.get("/pit_collection/images/{event_key}/{image_name}")
-async def get_pit_picture(event_key: str, image_name: str):
+async def get_pit_picture(event_key: str, image_name: str, Depends()):
     db = Database.get_database(event_key)
 
     collection = db["pit_images"]
