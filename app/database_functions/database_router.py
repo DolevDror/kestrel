@@ -230,7 +230,10 @@ async def get_pit_picture(event_key: str, image_name: str):
 
     # Retrieve the document by _id
     document = await collection.find_one({"filename": image_name}, {"_id": 0})
-
+    
+    if document is None:
+        raise HTTPException(status_code=404, detail=f"Image {image_name} not found")
+    
     # Get the binary image data from the document
     binary_data = document["image"]
 
