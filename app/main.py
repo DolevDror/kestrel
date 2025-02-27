@@ -45,6 +45,11 @@ app.include_router(database_router.router,
                    dependencies=[Depends(check_key)] # Every function in this router requires the api key 
                    )
 
+app.include_router(database_router.unauthed_router,
+                   tags=["Database"], 
+                   prefix="/database"
+                  )
+
 app.include_router(tba_router.router,
                    tags=["TBA"],
                    prefix="/tba",
