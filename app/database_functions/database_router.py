@@ -221,9 +221,11 @@ async def upload_pit_picture(event_key: str, picture: UploadFile):
     result = await collection.update_one({"filename": picture.filename}, {"$set": document}, upsert=True)
     return {"success": result.acknowledged, "filename": picture.filename}
 
+def fake_auth():
+ return "authorized"
 
 @router.get("/pit_collection/images/{event_key}/{image_name}")
-async def get_pit_picture(event_key: str, image_name: str):
+async def get_pit_picture(event_key: str, image_name: str, Depends(fake_auth)):
     db = Database.get_database(event_key)
 
     collection = db["pit_images"]
@@ -252,7 +254,7 @@ async def delete_pit_picture(event_key: str, image_name: str):
     return {"success": result.acknowledged}
 
 @router.get("/pit_collection/image_list/{event_key}")
-async def get_pit_image_list(event_key: str):
+async def get_pit_image_list(event_key: str, Depends(fake_auth)):
     db = Database.get_database(event_key)
 
     image_list = await db["pit_images"].find({}, {"_id": 0, "image": 0}).to_list(length=None)
