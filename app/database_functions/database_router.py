@@ -240,6 +240,17 @@ async def get_pit_picture(event_key: str, image_name: str):
     # Return the image data as a FileResponse
     return Response(content=binary_data, media_type="image/jpeg")
 
+@router.delete("/pit_collection/images/{event_key}/{image_name}")
+async def delete_pit_picture(event_key: str, image_name: str):
+    db = Database.get_database(event_key)
+
+    collection = db["pit_images"]
+
+    # Delete the document by filename
+    result = await collection.delete_one({"filename": image_name})
+
+    return {"success": result.acknowledged}
+
 @router.get("/pit_collection/image_list/{event_key}")
 async def get_pit_image_list(event_key: str):
     db = Database.get_database(event_key)
