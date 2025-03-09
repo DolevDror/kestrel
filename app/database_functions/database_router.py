@@ -121,7 +121,9 @@ async def get_auto_paths(event_key: str):
 @router.get("/ss_users/{event_key}")
 async def get_ss_users(event_key: str):
     db = Database.get_database(event_key)
-    data = await db["ss_tim"].find({}, {"_id": 0}).to_list(length=None)
+    tim = await db["ss_tim"].find({}, {"_id": 0}).to_list(length=None)
+    team = await db["ss_team"].find({}, {"_id": 0}).to_list(length=None)
+    data = tim + team
 
     ss_users = []
     for document in data:
