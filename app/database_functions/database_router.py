@@ -273,6 +273,29 @@ async def delete_pit_picture(event_key: str, image_name: str):
 
     return {"success": result.acknowledged}
 
+@router.get("/user/{username}")
+async def get_mpv_user_data(username: str):
+    db = Database.get_database("kestrel")
+    document = await db["mpv_user_data"].find_one({"username": username}, {"_id", 0}).to_list(length=None)
+
+    if document is None:
+        HTTPException(status_code=404, detail=f"User {username} not found")
+
+    return document["data"]
+    
+@router.put("/user/{username}")
+async def get_mpv_user_data(username: str, update_user_data: dict):
+    db = Database.get_database("kestrel")
+
+    # Updates data for the specified username without upsert
+    result = await db["mpv_user_data"].update_one({"username": username}, {"$set": {"data": update_user_data}}, upsert=False)
+
+    # If username does not exist in databse, raise exception
+    if result.matched_count < 1:
+        HTTPException(status_code=404, detail=f"User {username} not found")
+
+    return {"success": result.acknowledged}
+
 @unauthed_router.get("/pit_collection/image_list/{event_key}")
 async def get_pit_image_list(event_key: str):
     db = Database.get_database(event_key)
