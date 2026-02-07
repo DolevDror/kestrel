@@ -303,11 +303,11 @@ async def create_mpv_user(username: str, password: str):
 
     # make sure user does not already exist
     exists = await db["mpv_users"].find_one({"username": username}, {"_id": 0})
-    if exists is not None:
+    if exists:
         raise HTTPException(status_code=409, detail=f"User {username} already exists")
     result1 = await db["mpv_users"].insert_one({"username": username, "password": password})
     result2 = await db["mpv_user_data"].insert_one({"username": username, "data": {}})
-    if result1.inserted_id is not None and result2.inserted_id is not None:
+    if result1.inserted_id and result2.inserted_id:
         return {"success": f"created user {username}"}
 
 @unauthed_router.get("/pit_collection/image_list/{event_key}")
