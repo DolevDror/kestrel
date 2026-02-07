@@ -331,5 +331,5 @@ async def login(username: str, password: str):
         HTTPException(status_code=404, detail=f"User {username} not found")
     if result["password"] != password:
         HTTPException(status_code=404, detail=f"Invalid password {password}")
-    
-    return generate_access_token(username)
+    else:
+        return generate_access_token(username)
